@@ -1,0 +1,19 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\": "backend/app/"
+        }
+    },
+    "require": {
+        "nyholm/psr7": "^1.8",
+        "nyholm/psr7-server": "^1.1",
+        "mailersend/mailersend": "^0.25.0",
+        "symfony/http-client": "^7.1",
+        "php-http/guzzle7-adapter": "^1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
