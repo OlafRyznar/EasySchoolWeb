@@ -19,6 +19,9 @@ const SecondaryHeader = () => {
     'presence' : 'Presence',
     'library' : 'Library',
     'contact' : 'Contact',
+    'mobile-app' : 'Mobile App',
+    'help' : 'Help',
+    'about-us' : 'About Us'
     // Dodaj inne strony, jeśli potrzebne
   };
 

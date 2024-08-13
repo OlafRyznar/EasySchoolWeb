@@ -1,15 +1,36 @@
 import React from 'react';
 
-function AboutUsPage() {
+const AboutUsPage = () => {
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-100">
-      <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold mb-6">About Us</h1>
-        <p className="text-gray-700 mb-4">We are committed to providing the best educational experience. Learn more about our mission, values, and the team behind our platform.</p>
-        <p className="text-gray-700">Our mission is to make education accessible and engaging for everyone. We believe in leveraging technology to improve learning outcomes and support educators, parents, and students alike.</p>
-      </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
+      {/* Main Content */}
+      <main className="container mx-auto px-4">
+        {/* Mission Section */}
+        <section className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
+          <p className="text-lg text-gray-700">
+            Our mission is to make high-quality education accessible to everyone, everywhere. We strive to empower learners with the tools and knowledge they need to succeed.
+          </p>
+        </section>
+
+        {/* Values Section */}
+        <section className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Our Values</h2>
+          <p className="text-lg text-gray-700">
+            Integrity, Excellence, and Inclusivity guide everything we do. We are committed to fostering a learning environment that values each individual and encourages personal growth.
+          </p>
+        </section>
+
+        {/* Team Section */}
+        <section className="text-center">
+          <h2 className="text-3xl font-bold mb-4">Meet the Team</h2>
+          <p className="text-lg text-gray-700">
+            Our team is made up of dedicated professionals who are passionate about education and committed to providing the best learning experience. Each member brings unique expertise and a shared vision for the future of education.
+          </p>
+        </section>
+      </main>
     </div>
   );
-}
+};
 
 export default AboutUsPage;
