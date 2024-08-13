@@ -29,10 +29,21 @@ class Grade
     }
 
     // Dodawanie nowej oceny
-    public function create($studentId, $subjectId, $gradeValue)
+    public function create(array $data)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO grade (student_id, subject_id, grade_value) VALUES (?, ?, ?)");
-        $stmt->execute([$studentId, $subjectId, $gradeValue]);
+        $stmt = $this->pdo->prepare("
+            INSERT INTO grade (student_id, subject_id, grade_value, added_by, event_id, description, date_added)
+            VALUES (?, ?, ?, ?, ?, ?, NOW())
+        ");
+
+        $stmt->execute([
+            $data['student_id'],
+            $data['subject_id'],
+            $data['grade_value'],
+            $data['added_by'] ?? null,
+            $data['event_id'] ?? null,
+            $data['description'] ?? null
+        ]);
 
         // Sprawdzenie, czy operacja się powiodła
         if ($stmt->rowCount() > 0) {

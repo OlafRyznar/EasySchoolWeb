@@ -28,8 +28,13 @@ return function (App $app) {
     // Route for getting all users
     $app->get('/users', [UserController::class, 'getAllUsers']);
 
-    // Route for fetching all emails
+    // Routes for mails
     $app->get('/mail', [MailController::class, 'getAllMails']);
+    $app->post('/mail', [MailController::class, 'createMail']);
+    $app->put('/mail/{id}', [MailController::class, 'updateMail']);
+    $app->delete('/mail/{id}', [MailController::class, 'deleteMail']);
+    $app->get('/mail/{id}', [MailController::class, 'getMailById']);
+
 
     // Route for login
     $app->post('/api/auth/login', [AuthController::class, 'login']);

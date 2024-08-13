@@ -1,37 +1,30 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Importuj Link i useNavigate z react-router-dom
-import logo1 from '../assets/logo1.png'; // Zaktualizuj ścieżkę do swojego pliku
-import logo2 from '../assets/logo2.png'; // Zaktualizuj ścieżkę do swojego pliku
+import { Link, useNavigate } from 'react-router-dom';
+import logo1 from '../assets/logo1.png';
+import logo2 from '../assets/logo2.png';
 
 const Header = () => {
   const navigate = useNavigate();
-  const userRole = localStorage.getItem('user_role'); // Pobierz rolę użytkownika z localStorage
+  const userRole = localStorage.getItem('user_role');
 
-  // Sprawdź, które linki powinny być aktywne
   const isStudentActive = userRole !== 'teacher' && userRole !== 'guardian';
   const isTeacherActive = userRole !== 'student' && userRole !== 'guardian';
   const isParentActive = userRole !== 'student' && userRole !== 'teacher';
 
-  // Funkcja obsługująca kliknięcia w linki
-  const handleClick = (event, isActive, to) => {
-    if (!userRole || !isActive) {
-      event.preventDefault(); // Zapobiegaj domyślnemu działaniu linku
-      navigate('/login'); // Przekierowanie do strony logowania
-    } else {
-      navigate(to); // Nawiguj do linku, jeśli jest aktywny
+  const handleClick = (isActive, to) => {
+    if (userRole && isActive) {
+      navigate(to);
     }
   };
 
-  // Funkcja obsługująca wylogowanie
   const handleSignOff = () => {
     localStorage.removeItem('user_role');
     localStorage.removeItem('user_id');
-    navigate('/login'); // Przekierowanie do strony logowania po wylogowaniu
+    navigate('/login');
   };
 
-  // Funkcja obsługująca logowanie
   const handleLogin = () => {
-    navigate('/login'); // Przekierowanie do strony logowania
+    navigate('/login');
   };
 
   return (
@@ -44,27 +37,33 @@ const Header = () => {
 
       {/* Navigation Links */}
       <div className="flex flex-col md:flex-row md:items-center md:gap-6 lg:flex-row lg:gap-10">
-        <a
-          href="/student"
-          onClick={(e) => handleClick(e, isStudentActive, '/student')}
-          className={`text-[2rem] font-extrabold font-['Bitter'] mb-2 text-center md:text-left md:mb-0 ${userRole && isStudentActive ? 'text-[#519bf3]' : 'text-gray-500 cursor-not-allowed'}`}
+        <button
+          onClick={() => handleClick(isStudentActive, '/student')}
+          disabled={!isStudentActive}
+          className={`text-[2rem] font-extrabold font-['Bitter'] mb-2 text-center md:text-left md:mb-0 ${
+            userRole && isStudentActive ? 'text-[#519bf3]' : 'text-gray-500 cursor-not-allowed'
+          }`}
         >
           For student
-        </a>
-        <a
-          href="/teacher"
-          onClick={(e) => handleClick(e, isTeacherActive, '/teacher')}
-          className={`text-[2rem] font-extrabold font-['Bitter'] mb-2 text-center md:text-left md:mb-0 ${userRole && isTeacherActive ? 'text-[#519bf3]' : 'text-gray-500 cursor-not-allowed'}`}
+        </button>
+        <button
+          onClick={() => handleClick(isTeacherActive, '/teacher')}
+          disabled={!isTeacherActive}
+          className={`text-[2rem] font-extrabold font-['Bitter'] mb-2 text-center md:text-left md:mb-0 ${
+            userRole && isTeacherActive ? 'text-[#519bf3]' : 'text-gray-500 cursor-not-allowed'
+          }`}
         >
           For teacher
-        </a>
-        <a
-          href="/parent"
-          onClick={(e) => handleClick(e, isParentActive, '/parent')}
-          className={`text-[2rem] font-extrabold font-['Bitter'] mb-2 text-center md:text-left md:mb-0 ${userRole && isParentActive ? 'text-[#519bf3]' : 'text-gray-500 cursor-not-allowed'}`}
+        </button>
+        <button
+          onClick={() => handleClick(isParentActive, '/parent')}
+          disabled={!isParentActive}
+          className={`text-[2rem] font-extrabold font-['Bitter'] mb-2 text-center md:text-left md:mb-0 ${
+            userRole && isParentActive ? 'text-[#519bf3]' : 'text-gray-500 cursor-not-allowed'
+          }`}
         >
           For parent
-        </a>
+        </button>
         <Link
           to="/other"
           className="text-[#519bf3] text-[2rem] font-extrabold font-['Bitter'] mb-2 text-center md:text-left md:mb-0"

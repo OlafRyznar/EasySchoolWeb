@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import logo1 from '../assets/logo1.png';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -66,7 +67,7 @@ const LoginPage = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <img
           className="w-48 h-28 mx-auto mb-6"
-          src="https://via.placeholder.com/188x116"
+          src={logo1}
           alt="Logo"
         />
         <div className="text-center text-4xl font-extrabold text-[#519bf3] font-['Bitter'] mb-6">Login</div>

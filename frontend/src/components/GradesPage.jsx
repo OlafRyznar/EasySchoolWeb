@@ -9,6 +9,18 @@ const GradesPage = () => {
   const [selectedClass, setSelectedClass] = useState(""); // Start with empty string to show all classes
   const [classes, setClasses] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [userRole, setUserRole] = useState(''); // Initialize with empty string
+  const [showModal, setShowModal] = useState(false);
+  const [newGrade, setNewGrade] = useState({ grade_value: '', description: '', subject_id: null });
+
+  // Fetch user role from local storage
+  useEffect(() => {
+    const role = localStorage.getItem('user_role'); // Adjust key if needed
+    console.log('User role from localStorage:', role); // Debug log
+    if (role) {
+      setUserRole(role);
+    }
+  }, []);
 
   // Fetch all students
   useEffect(() => {
@@ -112,6 +124,43 @@ const GradesPage = () => {
     setSelectedClass(event.target.value);
   };
 
+  const handleAddGradeClick = (subjectId) => {
+    setNewGrade({ ...newGrade, subject_id: subjectId });
+    setShowModal(true);
+  };
+
+  const handleGradeSubmit = async () => {
+    if (!newGrade.grade_value || !newGrade.subject_id) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/grade', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...newGrade,
+          student_id: selectedStudent,
+          added_by: 1, // Assuming teacher ID is 1, replace it with actual logged in teacher ID
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Grade added:', data);
+      fetchGradesForStudent(selectedStudent); // Refresh grades
+      setShowModal(false);
+    } catch (error) {
+      console.error('Error adding grade:', error);
+    }
+  };
+
   const getGradeColor = (grade) => {
     switch (grade) {
       case 'A+': return 'bg-green-700';
@@ -179,7 +228,17 @@ const GradesPage = () => {
             <div className="flex flex-col gap-8">
               {filteredSubjects.map((subject) => (
                 <div key={subject.subject_id} className="p-4 bg-blue-100 rounded-lg shadow-md">
-                  <h3 className="text-xl font-semibold mb-4">{subject.name}</h3>
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-xl font-semibold mb-4">{subject.name}</h3>
+                    {userRole === 'teacher' && (
+                      <button
+                        onClick={() => handleAddGradeClick(subject.subject_id)}
+                        className="text-2xl text-blue-500 hover:text-blue-700 transition-colors"
+                      >
+                        +
+                      </button>
+                    )}
+                  </div>
                   <div className="flex gap-2 flex-wrap">
                     {gradesBySubject[subject.subject_id] && gradesBySubject[subject.subject_id].length ? (
                       gradesBySubject[subject.subject_id].map((grade) => (
@@ -201,6 +260,46 @@ const GradesPage = () => {
           ) : (
             <div className="text-gray-500">No subjects available for this student</div>
           )}
+        </div>
+      )}
+
+      {/* Modal for adding a new grade */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 className="text-2xl font-bold mb-4">Add Grade</h2>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">Grade</label>
+              <input
+                type="text"
+                className="p-2 border border-gray-300 rounded-lg w-full"
+                value={newGrade.grade_value}
+                onChange={(e) => setNewGrade({ ...newGrade, grade_value: e.target.value })}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">Description (optional)</label>
+              <textarea
+                className="p-2 border border-gray-300 rounded-lg w-full"
+                value={newGrade.description}
+                onChange={(e) => setNewGrade({ ...newGrade, description: e.target.value })}
+              ></textarea>
+            </div>
+            <div className="flex justify-end gap-4">
+              <button
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                onClick={handleGradeSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

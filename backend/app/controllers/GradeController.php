@@ -42,25 +42,17 @@ class GradeController
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    // Dodawanie nowej oceny
-    public function createGrade(Request $request, Response $response): Response
-    {
-        $data = $request->getParsedBody();
+   // Dodawanie nowej oceny
+   public function createGrade(Request $request, Response $response, array $args = []): Response
+   {
+       // Odczytanie danych z żądania
+       $data = json_decode($request->getBody()->getContents(), true);
 
-        // Sprawdzenie, czy wymagane pola są obecne
-        if (empty($data['student_id']) || empty($data['subject_id']) || empty($data['grade_value'])) {
-            $response->getBody()->write(json_encode(['error' => 'Missing required fields']));
-            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
-        }
+       // Tworzenie nowej oceny
+       $gradeId = $this->grade->create($data);
 
-        // Tworzenie nowej oceny
-        $gradeId = $this->grade->create($data['student_id'], $data['subject_id'], $data['grade_value']);
-        if ($gradeId) {
-            $response->getBody()->write(json_encode(['message' => 'Grade created successfully', 'grade_id' => $gradeId]));
-            return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
-        } else {
-            $response->getBody()->write(json_encode(['error' => 'Failed to create grade']));
-            return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
-        }
-    }
+       // Odpowiedź z nowo utworzonym ID
+       $response->getBody()->write(json_encode(['id' => $gradeId]));
+       return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+   }
 }
