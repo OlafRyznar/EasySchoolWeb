@@ -32,7 +32,7 @@ class Grade
     public function create(array $data)
     {
         $stmt = $this->pdo->prepare("
-            INSERT INTO grade (student_id, subject_id, grade_value, added_by, event_id, description, date_added)
+            INSERT INTO grade (student_id, subject_id, grade_value, added_by, exam_id, description, date_added)
             VALUES (?, ?, ?, ?, ?, ?, NOW())
         ");
 
@@ -41,7 +41,7 @@ class Grade
             $data['subject_id'],
             $data['grade_value'],
             $data['added_by'] ?? null,
-            $data['event_id'] ?? null,
+            $data['exam_id'] ?? null,
             $data['description'] ?? null
         ]);
 

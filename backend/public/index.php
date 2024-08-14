@@ -14,6 +14,8 @@ use App\Controllers\ClassController;
 use App\Controllers\UserController;
 use App\Controllers\MailController;
 use App\Controllers\TimetableController;
+use App\Controllers\DuesController;
+use App\Controllers\ExamController;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -52,6 +54,26 @@ $container->set(App\Models\Book::class, function(ContainerInterface $container) 
 $container->set(App\Models\Grade::class, function(ContainerInterface $container) {
     return new App\Models\Grade($container->get(PDO::class));
 });
+
+
+ // Rejestracja modelu i kontrolera dla Dues
+ $container->set(App\Models\Dues::class, function(ContainerInterface $container) {
+    return new App\Models\Dues($container->get(PDO::class));
+});
+
+$container->set(DuesController::class, function(ContainerInterface $container) {
+    return new DuesController($container->get(App\Models\Dues::class));
+});
+
+$container->set(App\Models\Exam::class, function(ContainerInterface $container) {
+    return new App\Models\Exam($container->get(PDO::class));
+});
+
+$container->set(ExamController::class, function(ContainerInterface $container) {
+    return new ExamController($container->get(App\Models\Exam::class));
+});
+
+
 
 $container->set(App\Models\Subject::class, function(ContainerInterface $container) {
     return new App\Models\Subject($container->get(PDO::class));

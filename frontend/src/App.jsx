@@ -19,6 +19,8 @@ import ContactPage from './components/ContactPage';
 import HelpPage from './components/HelpPage';
 import AboutUsPage from './components/AboutUsPage';
 import MobileAppPage from './components/MobileAppPage';
+import DuesPage from './components/DuesPage';
+import ExamPage from './components/ExamPage';
 
 
 // Funkcja do sprawdzania, czy użytkownik jest zalogowany
@@ -39,7 +41,7 @@ const Layout = () => {
 
   // Lista ścieżek, na których ma być wyświetlany SecondaryHeader
   const secondaryHeaderPages = ['/student', '/teacher', '/parent', '/other', '/grades', '/schedule', '/presence', '/contact','/library',
-    '/mobile-app','/help', '/about-us'
+    '/mobile-app','/help', '/about-us', '/dues', '/exams'
   ];
 
   // Sprawdź, czy aktualna ścieżka wymaga SecondaryHeader
@@ -70,6 +72,8 @@ const Layout = () => {
         <Route path="/help" element={<ProtectedRoute element={<HelpPage />} />} />
         <Route path="/mobile-app" element={<ProtectedRoute element={<MobileAppPage />} />} />
         <Route path="/about-us" element={<ProtectedRoute element={<AboutUsPage />} />} />
+        <Route path="/dues" element={<ProtectedRoute element={<DuesPage />} />} />
+        <Route path="/exams" element={<ProtectedRoute element={<ExamPage />} />} />
       </Routes>
     </div>
   );

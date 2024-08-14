@@ -136,6 +136,11 @@ const GradesPage = () => {
     }
 
     try {
+      console.log(JSON.stringify({
+        ...newGrade,
+        student_id: selectedStudent,
+        added_by: 1, // Assuming teacher ID is 1, replace it with actual logged in teacher ID
+      }))
       const response = await fetch('http://localhost:8080/grade', {
         method: 'POST',
         headers: {
@@ -147,15 +152,17 @@ const GradesPage = () => {
           added_by: 1, // Assuming teacher ID is 1, replace it with actual logged in teacher ID
         }),
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      console.log(response)
 
-      const data = await response.json();
-      console.log('Grade added:', data);
+      //const data = await response.json();
+
+      //console.log('Grade added:', data);
       fetchGradesForStudent(selectedStudent); // Refresh grades
       setShowModal(false);
+      
     } catch (error) {
       console.error('Error adding grade:', error);
     }

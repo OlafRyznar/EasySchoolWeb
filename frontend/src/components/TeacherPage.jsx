@@ -42,7 +42,7 @@ const TeacherPage = () => {
 
         {/* Tests Tile */}
         <Link
-          to="/tests"
+          to="/exams"
           className="relative w-full h-64 bg-[#e5edf7] rounded-2xl p-6 flex flex-col justify-center items-center cursor-pointer hover:shadow-lg transition-shadow duration-300 ease-in-out"
         >
           <div className="text-[#519bf3] text-3xl font-extrabold mb-2">Tests</div>

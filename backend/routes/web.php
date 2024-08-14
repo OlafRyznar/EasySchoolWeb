@@ -13,6 +13,9 @@ use App\Controllers\ClassController;
 use App\Controllers\MailController;
 use App\Controllers\TimetableController;
 use App\Controllers\StudentSubjectController;
+use App\Controllers\DuesController;
+use App\Controllers\ExamController;
+
 
 
 
@@ -27,6 +30,12 @@ return function (App $app) {
 
     // Route for getting all users
     $app->get('/users', [UserController::class, 'getAllUsers']);
+
+    // Route for fetching all exams
+    $app->get('/exams', [ExamController::class, 'getAllExams']);
+    $app->get('/exams/{user_id}', [ExamController::class, 'getExamsByUser']);
+    $app->post('/exams', [ExamController::class, 'createExam']);
+
 
     // Routes for mails
     $app->get('/mail', [MailController::class, 'getAllMails']);
@@ -67,6 +76,10 @@ return function (App $app) {
 
     // Routes for subjects
     $app->get('/subject', [SubjectController::class, 'getAllSubjects']);
+
+    // Route for fetching all dues
+    $app->get('/dues', [DuesController::class, 'getAllDues']);
+    $app->get('/dues/{user_id}', [DuesController::class, 'getDuesByUser']);
 
     // Route to get subjects by student
     $app->get('/student/{student_id}/subjects', [StudentSubjectController::class, 'getSubjectsByStudent']);

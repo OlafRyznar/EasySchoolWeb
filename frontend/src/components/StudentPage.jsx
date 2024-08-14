@@ -24,7 +24,7 @@ const StudentPage = () => {
 
         {/* E-Library Tile */}
         <div
-          onClick={() => handleNavigation('/e-library')}
+          onClick={() => handleNavigation('/library')}
           className="relative w-full h-64 bg-[#e5edf7] rounded-2xl p-6 flex flex-col justify-center items-center cursor-pointer hover:shadow-lg transition-shadow duration-300 ease-in-out"
         >
           <div className="text-[#519bf3] text-3xl font-extrabold mb-2">E-Library</div>
@@ -46,7 +46,7 @@ const StudentPage = () => {
 
         {/* Tests Tile */}
         <div
-          onClick={() => handleNavigation('/tests')}
+          onClick={() => handleNavigation('/exams')}
           className="relative w-full h-64 bg-[#e5edf7] rounded-2xl p-6 flex flex-col justify-center items-center cursor-pointer hover:shadow-lg transition-shadow duration-300 ease-in-out"
         >
           <div className="text-[#519bf3] text-3xl font-extrabold mb-2">Tests</div>
