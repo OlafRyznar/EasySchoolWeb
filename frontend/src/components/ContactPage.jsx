@@ -130,7 +130,6 @@ const ContactPage = () => {
                 {view === 'received' && (
                   <>
                     <p><strong>From:</strong> {email.sender_id}</p>
-                    <p><strong>To:</strong> {email.receiver_id}</p>
                   </>
                 )}
                 {view === 'sent' && (

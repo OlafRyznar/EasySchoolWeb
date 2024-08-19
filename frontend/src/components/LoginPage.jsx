@@ -41,6 +41,7 @@ const LoginPage = () => {
         // Przechowywanie danych użytkownika w localStorage
         localStorage.setItem('user_id', user_id);
         localStorage.setItem('user_role', role);
+        localStorage.setItem('user_email', email); // Zapisanie loginu (e-mail) w localStorage
 
         // Przekierowanie w zależności od roli
         if (role === 'student') {

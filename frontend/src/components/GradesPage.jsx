@@ -12,7 +12,10 @@ const GradesPage = () => {
   const [userRole, setUserRole] = useState(''); // Initialize with empty string
   const [showModal, setShowModal] = useState(false);
   const [newGrade, setNewGrade] = useState({ grade_value: '', description: '', subject_id: null });
+  const [errorMessage, setErrorMessage] = useState(''); // New state for error message
 
+  const allowedGrades = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']; // Allowed grade values
+  const teacherId = localStorage.getItem('user_id');
   // Fetch user role from local storage
   useEffect(() => {
     const role = localStorage.getItem('user_role'); // Adjust key if needed
@@ -127,20 +130,21 @@ const GradesPage = () => {
   const handleAddGradeClick = (subjectId) => {
     setNewGrade({ ...newGrade, subject_id: subjectId });
     setShowModal(true);
+    setErrorMessage(''); // Clear any previous error messages
   };
 
   const handleGradeSubmit = async () => {
     if (!newGrade.grade_value || !newGrade.subject_id) {
-      alert('Please fill in all required fields.');
+      setErrorMessage('Please fill in all required fields.');
       return;
     }
 
+    if (!allowedGrades.includes(newGrade.grade_value)) {
+      setErrorMessage('Invalid grade value. Please enter a valid grade (e.g., A+, B, C-).');
+      return;
+    }
+console.log(teacherId)
     try {
-      console.log(JSON.stringify({
-        ...newGrade,
-        student_id: selectedStudent,
-        added_by: 1, // Assuming teacher ID is 1, replace it with actual logged in teacher ID
-      }))
       const response = await fetch('http://localhost:8080/grade', {
         method: 'POST',
         headers: {
@@ -149,22 +153,19 @@ const GradesPage = () => {
         body: JSON.stringify({
           ...newGrade,
           student_id: selectedStudent,
-          added_by: 1, // Assuming teacher ID is 1, replace it with actual logged in teacher ID
+          added_by: 1,
         }),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      console.log(response)
 
-      //const data = await response.json();
-
-      //console.log('Grade added:', data);
       fetchGradesForStudent(selectedStudent); // Refresh grades
       setShowModal(false);
       
     } catch (error) {
       console.error('Error adding grade:', error);
+      setErrorMessage('Error adding grade. Please try again.');
     }
   };
 
@@ -275,6 +276,11 @@ const GradesPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
             <h2 className="text-2xl font-bold mb-4">Add Grade</h2>
+            {errorMessage && (
+              <div className="bg-red-100 text-red-700 p-2 rounded mb-4">
+                {errorMessage}
+              </div>
+            )}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700">Grade</label>
               <input

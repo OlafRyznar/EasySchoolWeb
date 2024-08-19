@@ -159,7 +159,7 @@ const CreateAccountPage = () => {
   return (
     <div className="relative w-full h-screen bg-white flex items-center justify-center">
       <div className="absolute inset-0 bg-[#fcf6f6]"></div>
-      <div className="relative w-10/12 max-w-md bg-white px-10 py-1 rounded-2xl shadow-2xl">
+      <div className="relative w-10/12 max-w-md bg-white px-10 py-6 rounded-2xl shadow-2xl">
         <img
           className="w-24 h-auto mx-auto mb-2"
           src={logo1}

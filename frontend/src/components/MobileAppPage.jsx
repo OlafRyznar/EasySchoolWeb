@@ -32,11 +32,9 @@ const MobileAppPage = () => {
             <p className="mb-8">Download our app for convenient access on the go. Available on iOS and Android.</p>
             <div className="flex justify-center gap-4">
               <a href="https://apps.apple.com" className="bg-white shadow-md rounded-lg p-4 flex items-center">
-                <img src="/assets/iOS.svg" alt="Download on the App Store" className="h-12"/>
                 <span className="ml-4 text-blue-700 font-semibold">Download on the App Store</span>
               </a>
               <a href="https://play.google.com" className="bg-white shadow-md rounded-lg p-4 flex items-center">
-                <img src="/assets/Android.svg" alt="Get it on Google Play" className="h-12"/>
                 <span className="ml-4 text-green-700 font-semibold">Get it on Google Play</span>
               </a>
             </div>
